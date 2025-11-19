@@ -6,11 +6,17 @@
 # 2025-05-17: Tsutaya T: Fixed an error of NaN processing
 #  after the application of PercentDeamidation function.
 # 2025-11-13: Tsutaya T: Finalized for publication.
+# 2025-11-18: Tsutaya T: Added an example for multiple inputs.
 # ==============================
 # This is a command-line script to calculate Asparagine and
 #  Glutamine deamidation rates of peptides. Original script
 #  is written in Python by David Lyon and available via Github.
 # https://github.com/dblyon/deamidation
+#
+# There are settings at the end of this script that users need to
+#  modify according to their own environment. When using this script,
+#  please scroll down and change the settings in the section
+#  starting with "USER INPUT".
 #
 # Please modify scripts in the USER INPUT section for your
 #  dataset, and then run commands in the EXECUTE section,
@@ -779,7 +785,7 @@ Deamidation <- function(fn.evidence,
 fn.evidence <- "~/rdeamidation/evidence_PF01E.txt"
 
 ## Output directory for results (absolute path)
-output.dir <- "~/rdeamidation"
+output.dir <- "~/rdeamidation/"
 
 ## Suffix for output files
 output.suffix <- "_PF01E"
@@ -831,4 +837,19 @@ Deamidation(fn.evidence = fn.evidence,
   sampling = sampling,
   num.bootstraps = num.bootstraps,
   protein.bootstraps = protein.bootstraps)
+
+# ==============================
+# FOR MULTIPLE INPUTS
+## Set variables to execute multiple evidence.txt files.
+fns.evidence <- fn.evidence <- c(
+  "~/rdeamidation/evidence_PF01E.txt",
+  "~/rdeamidation/evidence_PF02E.txt")
+outputs.suffix <- c("_PF01E", "_PF02E")
+
+## Perform multiple calculations.
+for(i in seq_along(fns.evidence)){
+  Deamidation(fn.evidence = fns.evidence[i],
+    output.dir = output.dir,
+    output.suffix = outputs.suffix[i])
+}
 
